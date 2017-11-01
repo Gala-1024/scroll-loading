@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.bootcss.com/vue/2.4.4/vue.min.js"></script>
+  <style>
+    p{
+      background: #f2f2f2;
+      padding: 20px 10px;
+    }
+    #scroll-body{
+      overflow: scroll;
+      -webkit-overflow-scrolling: touch
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-header">
+    <b>头部</b>
+  </div>
+  <div id="scroll-body">
+    <p v-for="item in list">
+      {{item.id}}
+    </p>
+    <div class="loading-more-icon" style="display: none;">
+      loading...
+    </div>
+    <div style="display: none;" class="loading-end">没有更多数据了...</div>
+  </div>
+</body>
+<script src="js/V_scroll_loading.js"></script>
+<script>
+
+  var test = new Vue({
+    el: '#scroll-body',
+    data: function () {
+      return{
+        list:[],
+        scrollLit:'',
+        page: 0
+      }
+    },
+    methods:{
+      getData: function () {
+        /**
+         * 模拟获取数据，假设分页的数据最多3页
+         * 具体代码根据业务不同改写，比如约定好每页返回20条数据，如果返回数据长度小于20，则可以设置this.scrollLit.loadingEnd();
+         */
+        this.page++;
+        if(this.page>30){
+          this.scrollLit.loadingEnd();
+          document.querySelector('.loading-end').style.display='block'
+          return;
+        }
+
+        //获取数据
+        var loadingIcon = document.querySelector('.loading-more-icon');
+        loadingIcon.style.display='block';
+        setTimeout(function () {
+          loadingIcon.style.display='none';
+          for(var a=0; a<10; a++){
+            test.list.push({id:test.list.length+1})
+          }
+          this.scrollLit.loadingUnLock()
+        }.bind(this), 1000)
+      }
+    },
+    mounted: function () {
+
+      //绑定滚动区域
+      this.scrollLit = new V_scroll_loading({
+        element: 'body',
+        triggerDistance:200
+      });
+
+      //滚动初始化
+      this.scrollLit.on('init', function (data) {
+        console.log('init')
+        console.log(data)
+        this.getData()
+      }.bind(this));
+
+      //滚动回调
+      this.scrollLit.on('scrollEnd', function (data) {
+        console.log('scrollEnd')
+        console.log(data)
+        this.getData()
+      }.bind(this));
+
+    }
+  })
+</script>
+</html>
