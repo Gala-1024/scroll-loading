@@ -5,7 +5,7 @@ js 监听容器下拉滚动事件<br />
  
 
 ## Usage
-demo：<a href="https://cgygd.github.io/scroll-loading/index.html" target="_blank">https://cgygd.github.io/scroll-loading/demo.html</a>
+demo：<a href="https://cgygd.github.io/scroll-loading/index.html" target="_blank">https://cgygd.github.io/scroll-loading/index.html</a>
 
 ### options
 1. **element** - 绑定的容器 

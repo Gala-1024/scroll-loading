@@ -51,7 +51,7 @@
          * 具体代码根据业务不同改写，比如约定好每页返回20条数据，如果返回数据长度小于20，则可以设置this.scrollLit.loadingEnd();
          */
         this.page++;
-        if(this.page>30){
+        if(this.page>3){
           this.scrollLit.loadingEnd();
           document.querySelector('.loading-end').style.display='block'
           return;
@@ -62,7 +62,7 @@
         loadingIcon.style.display='block';
         setTimeout(function () {
           loadingIcon.style.display='none';
-          for(var a=0; a<10; a++){
+          for(var a=0; a<20; a++){
             test.list.push({id:test.list.length+1})
           }
           this.scrollLit.loadingUnLock()
